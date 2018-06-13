@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sys2app
+spec:
+  type: NodePort
+#  type: LoadBalancer
+  selector:
+    app: sys2app
+  ports:
+    - protocol: TCP
+      port: 4000
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sys2app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: sys2app-pod
+      labels:
+        app: sys2app
+    spec:
+      containers:
+      - name: sys2app
+        image: renderedtext/sys2app:<%= image_tag %>
+        ports:
+        - containerPort: 4000
+        livenessProbe:
+          httpGet:
+            path: /health_check/ping
+            port: 4000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      imagePullSecrets:
+      - name: dockerhub-secrets
