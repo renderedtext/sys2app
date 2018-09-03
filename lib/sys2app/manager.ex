@@ -24,8 +24,12 @@ defmodule Sys2app.Manager do
     {:ok, spawn_link(fn -> :ok end)}
   end
 
-  def setup_environment,
-    do: Application.get_env(:sys2app, :callback, &default_callback/0).()
+  def setup_environment do
+    {m, f, a} = Application.get_env(:sys2app, :callback,
+      {__MODULE__, :default_callback, []})
+
+    apply(m, f, a)
+  end
 
   defp default_callback,
     do: Logger.warn("#{__MODULE__}: Callback function not specified!")
