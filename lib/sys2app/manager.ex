@@ -28,6 +28,7 @@ defmodule Sys2app.Manager do
     {m, f, a} = Application.get_env(:sys2app, :callback,
       {__MODULE__, :default_callback, []})
 
+    Logger.info("Executing sys2app callback: #{inspect {m, f, a}}")
     apply(m, f, a)
   end
 
