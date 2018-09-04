@@ -31,6 +31,6 @@ defmodule Sys2app.Manager do
     apply(m, f, a)
   end
 
-  defp default_callback,
-    do: Logger.warn("#{__MODULE__}: Callback function not specified!")
+  def default_callback,
+    do: Logger.error("#{__MODULE__}: Callback function not specified!")
 end
