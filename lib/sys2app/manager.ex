@@ -16,7 +16,7 @@ defmodule Sys2app.Manager do
   end
 
   def start_link() do
-    # Callback will be executed in the supervisor context to guarantie that
+    # Callback will be executed in the supervisor context to guarantee that
     # other dependencies won't be started before callback is finished.
     setup_environment()
 
